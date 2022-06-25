@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="BankingTransaction_Offical:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>BankingTransaction_Offical</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="spring-mvc-customer-management.war">
+      <element id="artifact" artifact-name="BankingTransaction_Offical:war exploded" />
+    </root>
+  </artifact>
+</component>
