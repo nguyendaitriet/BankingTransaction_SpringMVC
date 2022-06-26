@@ -56,6 +56,14 @@
         </form>
     </div>
 </div>
+<th:block th:if="${error}">
+    <div class="fixed-bottom alert alert-danger">
+        <button type="button" class="btn"></button>
+        <strong th:text="${error}"></strong>
+    </div>
+</th:block>
+
+<th:block th:replace="/layout/operation-status :: operation-status"></th:block>
 
 <th:block th:replace="/layout/script :: script"></th:block>
 </body>

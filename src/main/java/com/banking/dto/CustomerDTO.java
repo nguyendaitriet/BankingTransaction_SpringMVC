@@ -36,6 +36,11 @@ public class CustomerDTO {
         this.deleted = deleted;
     }
 
+    public CustomerDTO(Long id, String fullName) {
+        this.id = id;
+        this.fullName = fullName;
+    }
+
     public boolean isDeleted() {
         return deleted;
     }

@@ -61,7 +61,7 @@
                             <a title="Transfer" href="/transfer?id=${customer.getId()}" class="btn btn-outline-warning">
                                 <i class="fas fa-exchange-alt"></i>
                             </a>
-                            <a title="Suspend" href="/customers?action=remove&id=${customer.getId()}" class="btn btn-outline-danger">
+                            <a title="Suspend" th:href="@{/customers/suspend/{id}(id=${customer.id})}" class="btn btn-outline-danger">
                                 <i class="fas fa-ban"></i>
                             </a>
                         </td>
@@ -71,6 +71,7 @@
         </table>
     </div>
 </div>
+
 <th:block th:replace="/layout/script :: script"></th:block>
 
 </body>

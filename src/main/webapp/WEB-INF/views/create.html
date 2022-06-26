@@ -53,19 +53,6 @@
         </form>
     </div>
 </div>
-<th:block th:if="${success}">
-    <div class="fixed-bottom alert alert-success alert-dismissible">
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        <strong th:text="${success}"></strong>
-    </div>
-</th:block>
-
-<th:block th:if="${failure}">
-    <div class="fixed-bottom alert alert-danger">
-        <button type="button" class="btn"></button>
-        <strong th:text="${failure}"></strong>
-    </div>
-</th:block>
 
 <th:block th:if="${errors}">
     <div class="fixed-bottom alert alert-danger">
@@ -74,6 +61,8 @@
        </ul>
     </div>
 </th:block>
+
+<th:block th:replace="/layout/operation-status :: operation-status"></th:block>
 
 <th:block th:replace="/layout/script :: script"></th:block>
 </body>

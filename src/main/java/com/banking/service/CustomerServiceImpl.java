@@ -36,6 +36,11 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
+    public boolean updateCustomer(long id, String name, String email, String phone, String address) {
+        return customerRepository.updateCustomer(id, name, email,phone,address);
+    }
+
+    @Override
     public Optional<Customer> findById(Long id) {
         return customerRepository.findById(id);
     }
@@ -53,5 +58,14 @@ public class CustomerServiceImpl implements ICustomerService {
     @Override
     public void remove(Long id) {
         customerRepository.deleteById(id);
+    }
+    @Override
+    public boolean existsByIdAndDeletedFalse(long id) {
+        return customerRepository.existsByIdAndDeletedFalse(id);
+    }
+
+    @Override
+    public void suspendCustomer(long id) {
+        customerRepository.suspendCustomer(id);
     }
 }

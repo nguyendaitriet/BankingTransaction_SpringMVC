@@ -1,0 +1,19 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="operation-status">
+    <th:block th:if="${success}">
+        <div class="fixed-bottom alert alert-success alert-dismissible">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong th:text="${success}"></strong>
+        </div>
+    </th:block>
+
+    <th:block th:if="${failure}">
+        <div class="fixed-bottom alert alert-danger">
+            <button type="button" class="btn"></button>
+            <strong th:text="${failure}"></strong>
+        </div>
+    </th:block>
+</th:block>
+
+</html>

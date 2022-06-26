@@ -5,13 +5,11 @@ import com.banking.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.*;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/customers")
@@ -20,7 +18,7 @@ public class CustomerController {
     @Autowired
     private ICustomerService customerService;
 
-    @GetMapping("")
+    @RequestMapping(value = "")
     public ModelAndView showCustomerList() {
         ModelAndView modelAndView = new ModelAndView("/list");
         List<CustomerDTO> customerList = customerService.findAllDTO();
@@ -64,9 +62,70 @@ public class CustomerController {
     @GetMapping("/edit/{id}")
     public ModelAndView showEditForm(@PathVariable long id) {
         ModelAndView modelAndView = new ModelAndView("/edit");
-        CustomerDTO currentCustomer = customerService.findCustomerDTOById(id);
-        modelAndView.addObject("currentCustomer", currentCustomer);
+        if (customerService.existsByIdAndDeletedFalse(id)) {
+            CustomerDTO currentCustomer = customerService.findCustomerDTOById(id);
+            modelAndView.addObject("currentCustomer", currentCustomer);
+        }
+        else {
+            modelAndView.addObject("currentCustomer", new CustomerDTO());
+            modelAndView.addObject("error", "Customer ID doesn't exist!");
+        }
         return modelAndView;
     }
+
+    @PostMapping("/edit/{id}")
+    public ModelAndView updateCustomer(@PathVariable long id, @ModelAttribute CustomerDTO currentCustomer) {
+        ModelAndView modelAndView = new ModelAndView("/edit");
+
+        if (customerService.existsByIdAndDeletedFalse(id)) {
+            String name = currentCustomer.getFullName();
+            String phone = currentCustomer.getPhone();
+            String email = currentCustomer.getEmail();
+            String address = currentCustomer.getAddress();
+            if (customerService.updateCustomer(id, name, email, phone, address)) {
+                modelAndView.addObject("success", "Successful operation!");
+            }
+            else {
+                modelAndView.addObject("failure", "Failed operation!");
+            }
+            modelAndView.addObject("currentCustomer", currentCustomer);
+        }
+        else {
+            modelAndView.addObject("currentCustomer", new CustomerDTO());
+            modelAndView.addObject("error", "Customer ID doesn't exist!");
+        }
+        return modelAndView;
+    }
+
+    @GetMapping("/suspend/{id}")
+    public ModelAndView showSuspendForm(@PathVariable long id) {
+        ModelAndView modelAndView = new ModelAndView("/suspend");
+        if (customerService.existsByIdAndDeletedFalse(id)) {
+        CustomerDTO currentCustomer = customerService.findCustomerDTOById(id);
+        modelAndView.addObject("currentCustomer", currentCustomer);
+        }
+        else {
+            modelAndView.addObject("currentCustomer", new CustomerDTO());
+            modelAndView.addObject("error", "Customer ID doesn't exist!");
+        }
+        return modelAndView;
+    }
+
+    @PostMapping("/suspend/{id}")
+    public ModelAndView suspendCustomer(@PathVariable long id, @ModelAttribute CustomerDTO currentCustomer) {
+        ModelAndView modelAndView = new ModelAndView("/suspend");
+        if (customerService.existsByIdAndDeletedFalse(id)) {
+            customerService.suspendCustomer(id);
+            modelAndView.addObject("success", "Successful operation!");
+            modelAndView.addObject("currentCustomer", currentCustomer);
+        }
+        else {
+            modelAndView.addObject("currentCustomer", new CustomerDTO());
+            modelAndView.addObject("error", "Customer ID doesn't exist!");
+        }
+        return modelAndView;
+    }
+
+
 
 }
