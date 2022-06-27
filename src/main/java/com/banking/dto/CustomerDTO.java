@@ -3,8 +3,7 @@ package com.banking.dto;
 
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 public class CustomerDTO {
@@ -12,12 +11,13 @@ public class CustomerDTO {
     private Long id;
 
     @NotEmpty
-    @Length(min =1, max = 200,
-            message = "Max characters of name: 200.")
-    @Pattern(regexp = "^[A-Za-z]*",
-            message = "Name contains only letter and whitespace.")
+    @Size(min = 1, max = 10, message = "Max characters of name: 200.")
+    @Pattern(regexp = "^[A-Za-z]*", message = "Name contains only letter and whitespace.")
     private String fullName;
+
+    @Email(message = "The email address is invalid.")
     private String email;
+
     private String phone;
     private String address;
     private BigDecimal balance;

@@ -37,7 +37,7 @@ public class CustomerController {
     }
 
     @PostMapping("/create")
-    public ModelAndView crateCustomer(@Valid @ModelAttribute("newCustomer") CustomerDTO newCustomer, BindingResult bindingResult) {
+    public ModelAndView crateCustomer(@Validated @ModelAttribute("newCustomerDTO") CustomerDTO newCustomer, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("/create");
         String name = newCustomer.getFullName();
         String phone = newCustomer.getPhone();
@@ -54,10 +54,14 @@ public class CustomerController {
             } else {
                 modelAndView.addObject("failure", "Failed operation!");
             }
+            modelAndView.addObject("newCustomerDTO", new CustomerDTO());
+        }
+        else {
+            modelAndView.addObject("hasError", true);
         }
 
 //        modelAndView.addObject("errors", constraintViolations);
-        modelAndView.addObject("newCustomerDTO", new CustomerDTO());
+
         return modelAndView;
     }
 

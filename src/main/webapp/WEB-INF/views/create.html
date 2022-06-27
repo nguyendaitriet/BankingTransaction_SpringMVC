@@ -24,17 +24,17 @@
             <div class="row mt-3">
                 <div class="col-md-6 mb-3">
                     <label for="fullName" class="form-label">Full Name</label>
-                    <input type="text" class="form-control" id="fullName" name="name" th:field="*{fullName}">
+                    <input type="text" class="form-control" id="fullName" th:field="*{fullName}">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" th:field="*{email}">
+                    <input type="text" class="form-control" id="email" th:field="*{email}">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="phone" class="form-label">Phone Number</label>
-                    <input type="number" class="form-control" id="phone" name="phone" th:field="*{phone}">
+                    <input type="tel" class="form-control" id="phone" name="phone" th:field="*{phone}">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="address" class="form-label">Address</label>
@@ -53,6 +53,16 @@
         </form>
     </div>
 </div>
+
+<th:block th:if="${hasError} == true">
+    <div class="fixed-bottom alert alert-danger">
+        <h5>Please correct errors below:</h5>
+        <ul>
+            <li th:each="err : ${#fields.errors('newCustomerDTO.*')}" th:text="${err}"></li>
+        </ul>
+    </div>
+</th:block>
+
 <th:block th:if="${success}">
     <div class="fixed-bottom alert alert-success alert-dismissible">
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -67,13 +77,13 @@
     </div>
 </th:block>
 
-<th:block th:if="${errors}">
-    <div class="fixed-bottom alert alert-danger">
-       <ul>
-           <li th:each="error : ${errors}" th:value="${error}"></li>
-       </ul>
-    </div>
-</th:block>
+<!--<th:block th:if="${errors}">-->
+<!--    <div class="fixed-bottom alert alert-danger">-->
+<!--       <ul>-->
+<!--           <li th:each="error : ${errors}" th:value="${error}"></li>-->
+<!--       </ul>-->
+<!--    </div>-->
+<!--</th:block>-->
 
 <th:block th:replace="/layout/script :: script"></th:block>
 </body>
