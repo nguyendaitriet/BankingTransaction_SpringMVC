@@ -65,5 +65,4 @@ public interface ICustomerRepository extends JpaRepository<Customer, Long> {
 
     boolean existsByIdAndDeletedFalse(long id);
 
-    boolean existsByIdAndDeletedFalse(Long id);
 }
