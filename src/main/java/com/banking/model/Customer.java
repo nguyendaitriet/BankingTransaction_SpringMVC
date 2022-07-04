@@ -1,14 +1,9 @@
 package com.banking.model;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "customers")
@@ -44,7 +39,20 @@ public class Customer {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
     private List<Deposit> deposits;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+    private List<Withdraw> withdraws;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender")
+    private List<Transfer> senders;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipient")
+    private List<Transfer> recipients;
+
     public Customer() {
+    }
+
+    public Customer(Long id) {
+        this.id = id;
     }
 
     public Customer(String fullName, String email, String phone, String address, BigDecimal balance, Date createdAt, long createdBy, Date updatedAt, long updatedBy, boolean deleted) {
@@ -146,19 +154,6 @@ public class Customer {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return id == customer.id && createdBy == customer.createdBy && updatedBy == customer.updatedBy && deleted == customer.deleted && Objects.equals(fullName, customer.fullName) && Objects.equals(email, customer.email) && Objects.equals(phone, customer.phone) && Objects.equals(address, customer.address) && Objects.equals(balance, customer.balance) && Objects.equals(createdAt, customer.createdAt) && Objects.equals(updatedAt, customer.updatedAt);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, fullName, email, phone, address, balance, createdAt, createdBy, updatedAt, updatedBy, deleted);
     }
 
 }

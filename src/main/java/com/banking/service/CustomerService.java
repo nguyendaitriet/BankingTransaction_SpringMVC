@@ -11,7 +11,7 @@ import java.util.Optional;
 
 
 @Service
-public class CustomerServiceImpl implements ICustomerService {
+public class CustomerService implements ICustomerService {
     @Autowired
     private ICustomerRepository customerRepository;
 
@@ -59,6 +59,7 @@ public class CustomerServiceImpl implements ICustomerService {
     public void remove(Long id) {
         customerRepository.deleteById(id);
     }
+
     @Override
     public boolean existsByIdAndDeletedFalse(long id) {
         return customerRepository.existsByIdAndDeletedFalse(id);
@@ -68,4 +69,30 @@ public class CustomerServiceImpl implements ICustomerService {
     public void suspendCustomer(long id) {
         customerRepository.suspendCustomer(id);
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return customerRepository.existsByEmail(email.toLowerCase());
+    }
+
+    @Override
+    public boolean existsByPhone(String phone) {
+        return customerRepository.existsByPhone(phone);
+    }
+
+    @Override
+    public boolean existsByPhoneAndIdIsNot(String phone, long id) {
+        return customerRepository.existsByPhoneAndIdIsNot(phone, id);
+    }
+
+    @Override
+    public boolean existsByEmailAndIdIsNot(String email, long id) {
+        return customerRepository.existsByEmailAndIdIsNot(email,id);
+    }
+
+    @Override
+    public List<Customer> findAllByIdIsNotAndDeletedFalse(long id){
+        return customerRepository.findAllByIdIsNotAndDeletedFalse(id);
+    }
+
 }

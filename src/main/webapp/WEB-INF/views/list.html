@@ -18,7 +18,7 @@
                     <i class="fa-solid fa-plus"></i>
                     <span>Add New Customer</span>
                 </a>
-                <a href="/TransferInfo" class="btn btn-outline-light">
+                <a href="/transferInfo" class="btn btn-outline-light">
                     <i class="fa fa-history" aria-hidden="true"></i>
                     <span>Transfer money Information</span>
                 </a>
@@ -52,13 +52,13 @@
                             <a title="Edit" th:href="@{/customers/edit/{id}(id=${customer.id})}" class="btn btn-outline-primary">
                                 <i class="fas fa-user-edit"></i>
                             </a>
-                            <a title="Deposit" href="/deposit?id=${customer.getId()}" class="btn btn-outline-secondary">
+                            <a title="Deposit" th:href="@{/deposit/{id}(id=${customer.id})}" class="btn btn-outline-secondary">
                                 <i class="fas fa-plus-circle"></i>
                             </a>
-                            <a title="Withdraw" href="/withdraw?id=${customer.getId()}" class="btn btn-outline-success">
+                            <a title="Withdraw" th:href="@{/withdraw/{id}(id=${customer.id})}" class="btn btn-outline-success">
                                 <i class="fas fa-minus-circle"></i>
                             </a>
-                            <a title="Transfer" href="/transfer?id=${customer.getId()}" class="btn btn-outline-warning">
+                            <a title="Transfer" th:href="@{/transfer/{id}(id=${customer.id})}" class="btn btn-outline-warning">
                                 <i class="fas fa-exchange-alt"></i>
                             </a>
                             <a title="Suspend" th:href="@{/customers/suspend/{id}(id=${customer.id})}" class="btn btn-outline-danger">

@@ -17,13 +17,13 @@ import java.util.List;
 public interface ICustomerRepository extends JpaRepository<Customer, Long> {
 
     @Query("SELECT NEW com.banking.dto.CustomerDTO (" +
-                "c.id, " +
-                "c.fullName, " +
-                "c.email, " +
-                "c.phone, " +
-                "c.address, " +
-                "c.balance, " +
-                "c.deleted) " +
+            "c.id, " +
+            "c.fullName, " +
+            "c.email, " +
+            "c.phone, " +
+            "c.address, " +
+            "c.balance, " +
+            "c.deleted) " +
             "FROM Customer c " +
             "WHERE c.deleted = false")
     List<CustomerDTO> findAllDTO();
@@ -53,13 +53,17 @@ public interface ICustomerRepository extends JpaRepository<Customer, Long> {
             "WHERE c.id = :id")
     void suspendCustomer(@Param("id") long id);
 
-    @Query("SELECT NEW com.banking.dto.CustomerDTO (" +
-                "c.id, " +
-                "c.fullName) " +
-            "FROM Customer c " +
-            "WHERE c.id <> :id AND c.deleted = FALSE")
-    CustomerDTO findRecipient(@Param("id") long id);
+    List<Customer> findAllByIdIsNotAndDeletedFalse(long id);
 
+    boolean existsByEmail(String email);
+
+    boolean existsByPhone(String phone);
+
+    boolean existsByPhoneAndIdIsNot(String phone, long id);
+
+    boolean existsByEmailAndIdIsNot(String email, long id);
 
     boolean existsByIdAndDeletedFalse(long id);
+
+    boolean existsByIdAndDeletedFalse(Long id);
 }

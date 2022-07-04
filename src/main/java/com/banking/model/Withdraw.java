@@ -2,14 +2,18 @@ package com.banking.model;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.Validator;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "deposits")
-public class Deposit {
+@Table(name = "withdraws")
+public class Withdraw implements Validator {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +24,6 @@ public class Deposit {
     @Digits(integer = 12, fraction = 0,
             message = "Maximum digit of transaction amount is 12.")
     @Min(value = 100,message = "Transaction amount must NOT be LESS than 100.")
-    @Max(value = 50000000,message = "Transaction amount must NOT be GREATER than 50,000,000.")
     private BigDecimal transactionAmount;
 
     @CreationTimestamp
@@ -41,10 +44,11 @@ public class Deposit {
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
-    public Deposit() {
+    public Withdraw() {
+        this.customer = new Customer((long) 0);
     }
 
-    public Deposit(BigDecimal transactionAmount, Date createdAt, long createdBy, Date updatedAt, long updatedBy, boolean deleted) {
+    public Withdraw(BigDecimal transactionAmount, Date createdAt, long createdBy, Date updatedAt, long updatedBy, boolean deleted) {
         this.transactionAmount = transactionAmount;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
@@ -117,5 +121,31 @@ public class Deposit {
         this.customer = customer;
     }
 
-}
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return Withdraw.class.isAssignableFrom(aClass);
+    }
 
+    @Override
+    public void validate(Object target, Errors errors) {
+        Withdraw withdraw = (Withdraw) target;
+        BigDecimal transactionAmount = withdraw.getTransactionAmount();
+        BigDecimal balance = withdraw.getCustomer().getBalance();
+
+        if (withdraw.getId() == null) {
+            errors.rejectValue("transactionAmount", "transactionAmount.nullAmount");
+        }
+
+        if (transactionAmount.compareTo(new BigDecimal(100)) < 0) {
+            errors.rejectValue("transactionAmount","transactionAmount.minimumTransactionAmount");
+        }
+
+        if (transactionAmount.compareTo(balance) > 0) {
+            errors.rejectValue("transactionAmount", "transactionAmount.maximumTransactionAmount");
+        }
+
+        if (transactionAmount.precision() > 12 || transactionAmount.scale() > 0) {
+            errors.rejectValue("transactionAmount", "transactionAmount.validFormat");
+        }
+    }
+}
