@@ -1,43 +1,33 @@
 package com.banking.service;
 
-import com.banking.dto.CustomerDTO;
+import com.banking.model.dto.CustomerDTO;
 import com.banking.model.Customer;
-import com.banking.repository.ICustomerRepository;
+import com.banking.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
-public class CustomerService implements ICustomerService {
+public class CustomerService implements ICustomerService{
+
     @Autowired
-    private ICustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
     @Override
-    public List<Customer> findAll() {
-        return customerRepository.findAll();
+    public Iterable<Customer> findAll() {
+        return null;
     }
 
     @Override
-    public List<CustomerDTO> findAllDTO() {
-        return customerRepository.findAllDTO();
+    public List<CustomerDTO> findAllCustomersDTO() {
+        return customerRepository.findAllCustomersDTO();
     }
 
     @Override
-    public CustomerDTO findCustomerDTOById(long id) {
+    public Optional<CustomerDTO> findCustomerDTOById(Long id) {
         return customerRepository.findCustomerDTOById(id);
-    }
-
-    @Override
-    public boolean addNewCustomer(String name, String email, String phone, String address) {
-        return customerRepository.addNewCustomer(name, email, phone, address);
-    }
-
-    @Override
-    public boolean updateCustomer(long id, String name, String email, String phone, String address) {
-        return customerRepository.updateCustomer(id, name, email,phone,address);
     }
 
     @Override
@@ -46,33 +36,8 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Customer getById(Long id) {
-        return customerRepository.getById(id);
-    }
-
-    @Override
-    public void save(Customer customer) {
-        customerRepository.save(customer);
-    }
-
-    @Override
-    public void remove(Long id) {
-        customerRepository.deleteById(id);
-    }
-
-    @Override
-    public boolean existsByIdAndDeletedFalse(long id) {
-        return customerRepository.existsByIdAndDeletedFalse(id);
-    }
-
-    @Override
-    public void suspendCustomer(long id) {
-        customerRepository.suspendCustomer(id);
-    }
-
-    @Override
     public boolean existsByEmail(String email) {
-        return customerRepository.existsByEmail(email.toLowerCase());
+        return customerRepository.existsByEmail(email);
     }
 
     @Override
@@ -81,18 +46,36 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public boolean existsByPhoneAndIdIsNot(String phone, long id) {
+    public boolean existsByPhoneAndIdIsNot(String phone, Long id) {
         return customerRepository.existsByPhoneAndIdIsNot(phone, id);
     }
 
     @Override
-    public boolean existsByEmailAndIdIsNot(String email, long id) {
-        return customerRepository.existsByEmailAndIdIsNot(email,id);
+    public boolean existsByEmailAndIdIsNot(String email, Long id) {
+        return customerRepository.existsByEmailAndIdIsNot(email, id);
     }
 
     @Override
-    public List<Customer> findAllByIdIsNotAndDeletedFalse(long id){
-        return customerRepository.findAllByIdIsNotAndDeletedFalse(id);
+    public Customer getById(Long id) {
+        return null;
     }
+
+    @Override
+    public Customer save(Customer customer) {
+        return customerRepository.save(customer);
+    }
+
+    @Override
+    public void remove(Long id) {
+
+    }
+
+    @Override
+    public void suspendCustomer(Long id) {
+        customerRepository.suspendCustomer(id);
+    }
+
+
+
 
 }

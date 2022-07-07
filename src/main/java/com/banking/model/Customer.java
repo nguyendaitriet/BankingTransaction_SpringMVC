@@ -1,13 +1,14 @@
 package com.banking.model;
 
+import com.banking.model.dto.CustomerDTO;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "customers")
-public class Customer {
+public class Customer extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,14 +29,6 @@ public class Customer {
     @Column(precision = 12, columnDefinition = "decimal default 0")
     private BigDecimal balance;
 
-    private Date createdAt;
-    private Long createdBy;
-    private Date updatedAt;
-    private Long updatedBy;
-
-    @Column(columnDefinition = "boolean default false")
-    private boolean deleted;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
     private List<Deposit> deposits;
 
@@ -51,28 +44,24 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Long id) {
+    public Customer(Long id, String fullName, String email, String phone, String address, BigDecimal balance, List<Deposit> deposits, List<Withdraw> withdraws, List<Transfer> senders, List<Transfer> recipients) {
         this.id = id;
-    }
-
-    public Customer(String fullName, String email, String phone, String address, BigDecimal balance, Date createdAt, long createdBy, Date updatedAt, long updatedBy, boolean deleted) {
-        this.fullName = fullName;;
+        this.fullName = fullName;
         this.email = email;
         this.phone = phone;
         this.address = address;
         this.balance = balance;
-        this.createdAt = createdAt;
-        this.createdBy = createdBy;
-        this.updatedAt = updatedAt;
-        this.updatedBy = updatedBy;
-        this.deleted = deleted;
+        this.deposits = deposits;
+        this.withdraws = withdraws;
+        this.senders = senders;
+        this.recipients = recipients;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -116,45 +105,47 @@ public class Customer {
         this.balance = balance;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public List<Deposit> getDeposits() {
+        return deposits;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setDeposits(List<Deposit> deposits) {
+        this.deposits = deposits;
     }
 
-    public long getCreatedBy() {
-        return createdBy;
+    public List<Withdraw> getWithdraws() {
+        return withdraws;
     }
 
-    public void setCreatedBy(long createdBy) {
-        this.createdBy = createdBy;
+    public void setWithdraws(List<Withdraw> withdraws) {
+        this.withdraws = withdraws;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
+    public List<Transfer> getSenders() {
+        return senders;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setSenders(List<Transfer> senders) {
+        this.senders = senders;
     }
 
-    public long getUpdatedBy() {
-        return updatedBy;
+    public List<Transfer> getRecipients() {
+        return recipients;
     }
 
-    public void setUpdatedBy(long updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setRecipients(List<Transfer> recipients) {
+        this.recipients = recipients;
     }
 
-    public boolean isDeleted() {
-        return deleted;
+    public CustomerDTO toCustomerDTO () {
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setId(this.getId());
+        customerDTO.setFullName(this.fullName);
+        customerDTO.setEmail(this.email);
+        customerDTO.setAddress(this.address);
+        customerDTO.setPhone(this.phone);
+        customerDTO.setBalance(this.balance);
+        return customerDTO;
     }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
 }
 

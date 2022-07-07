@@ -83,7 +83,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan("com.banking.model", "com.banking.dto");
+        em.setPackagesToScan("com.banking.model", "com.banking.model.dto");
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(additionalProperties());
@@ -94,7 +94,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/banking_transaction_orm");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/banking_transaction_ajax");
         dataSource.setUsername("root");
         dataSource.setPassword("12345");
         return dataSource;
@@ -112,7 +112,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         properties.setProperty("hibernate.connection.useUnicode", "true");
         properties.setProperty("hibernate.connection.charset", "UTF-8");
         properties.setProperty("hibernate.format_sql", "true");
-        properties.setProperty("hibernate.show_sql", "true");
+//        properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
         return properties;

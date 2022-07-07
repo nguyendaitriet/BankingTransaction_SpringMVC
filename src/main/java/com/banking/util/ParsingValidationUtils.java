@@ -2,6 +2,7 @@ package com.banking.util;
 
 
 public class ParsingValidationUtils {
+
     public static boolean isLongParsable(String number) {
         try {
             Long.parseLong(number);

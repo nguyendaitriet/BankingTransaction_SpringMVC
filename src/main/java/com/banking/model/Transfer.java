@@ -3,6 +3,7 @@ package com.banking.model;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -13,7 +14,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "transfers")
-public class Transfer {
+public class Transfer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,24 +33,11 @@ public class Transfer {
             message = "Maximum digit of Total amount is 12.")
     private BigDecimal transactionAmount;
 
+    @Column(nullable = false)
     private int fees;
 
     @Column(precision = 12)
     private BigDecimal feesAmount;
-
-    @CreationTimestamp
-    @Column(updatable = false)
-    private Date createdAt;
-
-    private long createdBy;
-
-    @UpdateTimestamp
-    private Date updatedAt;
-
-    private long updatedBy;
-
-    @Column(columnDefinition = "boolean default false")
-    private boolean deleted;
 
     @ManyToOne
     @JoinColumn(name = "sender_id", referencedColumnName = "id")
@@ -60,21 +48,14 @@ public class Transfer {
     private  Customer recipient;
 
     public Transfer() {
-        this.sender = new Customer((long) 0);
-        this.recipient = new Customer((long) 0);
     }
 
-    public Transfer(Long id, BigDecimal transactionAmount, BigDecimal transferAmount, int fees, BigDecimal feesAmount, Date createdAt, long createdBy, Date updatedAt, long updatedBy, boolean deleted, Customer sender, Customer recipient) {
+    public Transfer(Long id, BigDecimal transferAmount, BigDecimal transactionAmount, int fees, BigDecimal feesAmount, Customer sender, Customer recipient) {
         this.id = id;
-        this.transactionAmount = transactionAmount;
         this.transferAmount = transferAmount;
+        this.transactionAmount = transactionAmount;
         this.fees = fees;
         this.feesAmount = feesAmount;
-        this.createdAt = createdAt;
-        this.createdBy = createdBy;
-        this.updatedAt = updatedAt;
-        this.updatedBy = updatedBy;
-        this.deleted = deleted;
         this.sender = sender;
         this.recipient = recipient;
     }
@@ -87,20 +68,20 @@ public class Transfer {
         this.id = id;
     }
 
-    public BigDecimal getTransactionAmount() {
-        return transactionAmount;
-    }
-
-    public void setTransactionAmount(BigDecimal transactionAmount) {
-        this.transactionAmount = transactionAmount;
-    }
-
     public BigDecimal getTransferAmount() {
         return transferAmount;
     }
 
     public void setTransferAmount(BigDecimal transferAmount) {
         this.transferAmount = transferAmount;
+    }
+
+    public BigDecimal getTransactionAmount() {
+        return transactionAmount;
+    }
+
+    public void setTransactionAmount(BigDecimal transactionAmount) {
+        this.transactionAmount = transactionAmount;
     }
 
     public int getFees() {
@@ -117,46 +98,6 @@ public class Transfer {
 
     public void setFeesAmount(BigDecimal feesAmount) {
         this.feesAmount = feesAmount;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public long getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(long createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public long getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(long updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
 
     public Customer getSender() {

@@ -1,32 +1,25 @@
 package com.banking.service;
 
-import com.banking.dto.CustomerDTO;
+import com.banking.model.dto.CustomerDTO;
 import com.banking.model.Customer;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ICustomerService extends IGeneralService<Customer> {
-
-    List<CustomerDTO> findAllDTO();
-
-    CustomerDTO findCustomerDTOById(long id);
-
-    boolean addNewCustomer(String name, String email, String phone, String address);
-
-    boolean updateCustomer(long id, String name, String email, String phone, String address);
-
-    boolean existsByIdAndDeletedFalse(long id);
-
-    void suspendCustomer(long id);
 
     boolean existsByEmail(String email);
 
     boolean existsByPhone(String phone);
 
-    boolean existsByPhoneAndIdIsNot(String phone, long id);
+    List<CustomerDTO> findAllCustomersDTO();
 
-    boolean existsByEmailAndIdIsNot(String email, long id);
+    Optional<CustomerDTO> findCustomerDTOById(Long id);
 
-    List<Customer> findAllByIdIsNotAndDeletedFalse(long id);
+    void suspendCustomer(Long id);
+
+    boolean existsByPhoneAndIdIsNot(String phone, Long id);
+
+    boolean existsByEmailAndIdIsNot(String email, Long id);
 
 }

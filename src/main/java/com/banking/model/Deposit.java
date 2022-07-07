@@ -2,14 +2,18 @@ package com.banking.model;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @Table(name = "deposits")
-public class Deposit {
+public class Deposit extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,20 +27,6 @@ public class Deposit {
     @Max(value = 50000000,message = "Transaction amount must NOT be GREATER than 50,000,000.")
     private BigDecimal transactionAmount;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private Date createdAt;
-
-    private Long createdBy;
-
-    @UpdateTimestamp
-    private Date updatedAt;
-
-    private Long updatedBy;
-
-    @Column(columnDefinition = "boolean default false")
-    private boolean deleted;
-
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
@@ -44,13 +34,10 @@ public class Deposit {
     public Deposit() {
     }
 
-    public Deposit(BigDecimal transactionAmount, Date createdAt, long createdBy, Date updatedAt, long updatedBy, boolean deleted) {
+    public Deposit(Long id, BigDecimal transactionAmount, Customer customer) {
+        this.id = id;
         this.transactionAmount = transactionAmount;
-        this.createdAt = createdAt;
-        this.createdBy = createdBy;
-        this.updatedAt = updatedAt;
-        this.updatedBy = updatedBy;
-        this.deleted = deleted;
+        this.customer = customer;
     }
 
     public Long getId() {
@@ -69,46 +56,6 @@ public class Deposit {
         this.transactionAmount = transactionAmount;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Long getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Long createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Long getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(Long updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
     public Customer getCustomer() {
         return customer;
     }
@@ -116,6 +63,5 @@ public class Deposit {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
 }
 
